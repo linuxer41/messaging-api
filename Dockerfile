@@ -1,4 +1,4 @@
-FROM alpine:3.18 AS build
+FROM node:18.20 AS build
 
 WORKDIR /build
 
