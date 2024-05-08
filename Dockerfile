@@ -10,7 +10,7 @@ RUN npm run build
 FROM node:20.13.0-alpine3.19 AS final
 
 RUN apk update && apk upgrade
-RUN apk add --no-cache sqlite~=3.45.3-r0
+RUN RUN apk --no-cache add sqlite
 
 WORKDIR /app
 
