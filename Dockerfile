@@ -7,7 +7,7 @@ COPY . .
 RUN npm install
 RUN npm run build
 
-FROM alpine:3.18 AS final
+FROM ubuntu:24.04 AS final
 WORKDIR /app
 
 COPY --from=build /build/dist/ .
