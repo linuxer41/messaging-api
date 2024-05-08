@@ -15,5 +15,6 @@ RUN apk --no-cache add sqlite
 WORKDIR /app
 
 COPY --from=build /build/node_modules/ ./node_modules/
+COPY --from=build /build/prisma ./prisma
 COPY --from=build /build/dist/ ./dist
 
