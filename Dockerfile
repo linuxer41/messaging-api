@@ -1,4 +1,4 @@
-FROM node:20.13.0 AS build
+FROM node:20.13.0-alpine3.19 AS build
 
 WORKDIR /build
 
@@ -14,7 +14,10 @@ RUN apk --no-cache add sqlite
 
 WORKDIR /app
 
+COPY --from=build /build/node_modules/ ./node_modules/
 COPY --from=build /build/prisma ./prisma
-COPY --from=build /build/dist/ /usr/share/nginx/html
+COPY --from=build /build/dist/ ./dist
 COPY --from=build /build/nginx.conf /etc/nginx/conf.d/default.conf
 
+EXPOSE 3000
+CMD ["node", "/app/dist/index.js"]
