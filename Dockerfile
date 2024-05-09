@@ -17,7 +17,6 @@ WORKDIR /app
 COPY --from=build /build/node_modules/ ./node_modules/
 COPY --from=build /build/prisma ./prisma
 COPY --from=build /build/dist/ ./dist
-COPY --from=build /build/nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 3000
 CMD ["node", "/app/dist/index.js"]
