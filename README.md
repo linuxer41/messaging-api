@@ -4,12 +4,18 @@ Baileys is a simple, fast and easy to use WhatsApp Web API written in TypeScript
 
 An implementation of [@WhiskeySockets/Baileys](https://github.com/WhiskeySockets/Baileys) as a simple REST API with multiple device support
 
-Project continued from [@ookamiiixd/baileys-api](https://github.com/ookamiiixd/baileys-api/)
+Project is fork of [nizarfadlan/baileys-api](https://github.com/nizarfadlan/baileys-api)
+
+Sqlite provider
+
+Application is [dockerized](https://hub.docker.com/repository/docker/hiteshdutt/whatsapp-api)
+
+For latest api code please refer [nizarfadlan/baileys-api](https://github.com/nizarfadlan/baileys-api)
 
 ## Requirements
 
 - NodeJS version 18.19.0 or higher
-- Prisma [supported databases](https://www.prisma.io/docs/reference/database-reference/supported-databases). Tested on MySQL and PostgreSQL
+- Prisma [supported databases](https://www.prisma.io/docs/reference/database-reference/supported-databases). Tested on SQLITE
 
 ## Installation
 
