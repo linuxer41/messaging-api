@@ -1,0 +1,20 @@
+meta {
+  name: Chat List
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/:sessionId/chats
+  body: none
+  auth: none
+}
+
+params:query {
+  ~limit: 25
+  ~cursor: 25
+}
+
+params:path {
+  sessionId: john
+}

@@ -1,0 +1,22 @@
+meta {
+  name: Block - Unblock Number
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{base_url}}/:sessionId/contacts/blocklist/update
+  body: json
+  auth: none
+}
+
+params:path {
+  sessionId: john
+}
+
+body:json {
+  {
+      "jid": "628122xxxxx@s.whatsapp.net",
+      "action": "block"
+  }
+}

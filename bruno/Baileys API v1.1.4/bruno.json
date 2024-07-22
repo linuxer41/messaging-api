@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "name": "Sessions",
+  "name": "Whatsapp API - Baileys",
   "type": "collection",
   "ignore": [
     "node_modules",

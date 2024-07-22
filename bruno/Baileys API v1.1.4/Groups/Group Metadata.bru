@@ -1,0 +1,16 @@
+meta {
+  name: Group Metadata
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/:sessionId/groups/:jid
+  body: none
+  auth: none
+}
+
+params:path {
+  sessionId: john
+  jid: 1203631xxxxxxxxx@g.us
+}
