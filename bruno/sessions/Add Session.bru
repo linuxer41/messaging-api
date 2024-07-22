@@ -1,0 +1,17 @@
+meta {
+  name: Add Session
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/sessions/add
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "sessionId": "tbr"
+  }
+}
