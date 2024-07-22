@@ -3,5 +3,7 @@ dist/
 debug/
 prisma/migrations/
 .env
+.env.production
+.env.staging
 *.tgz
 *.log
