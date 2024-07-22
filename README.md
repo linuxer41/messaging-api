@@ -31,11 +31,7 @@ npm run postinstall
 4. Build the project using the `build` script
 
 ```sh
-# Build staging
-npm run build:staging
-
-# Build production
-npm run build:prod
+npm run build
 ```
 
 You can skip this part if you're using the prebuilt one from the release page
@@ -96,17 +92,14 @@ LOG_LEVEL="warn"
 ## Usage
 
 1. Make sure you have completed the **Installation** and **Setup** step
-1. You can then start the app using the `start` script
+1. You can then start the app using the `dev` for development and `start` script for production
 
 ```sh
-# Start the app in development mode
+# Development
 npm run dev
 
-# Start the app in staging mode
-npm run start:staging
-
-# Start the app in production mode
-npm run start:prod
+# Production
+npm run start
 ```
 
 1. Now the endpoint should be available according to your environment variables configuration. Default is at `http://localhost:3000`
