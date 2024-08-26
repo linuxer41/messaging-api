@@ -5,6 +5,7 @@ WORKDIR /build
 COPY . .
 
 RUN npm install
+RUN npx prisma migrate
 RUN npm run build --omit dev
 
 FROM node:20.13.0-alpine3.19 AS final
