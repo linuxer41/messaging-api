@@ -4,9 +4,7 @@ WORKDIR /app
 
 COPY package*.json .
 
-RUN npm install --quiet
-
-RUN npx prisma migrate
+RUN npm install --quiet && npx prisma migrate
 
 COPY . .
 

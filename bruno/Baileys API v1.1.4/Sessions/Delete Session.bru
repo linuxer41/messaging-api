@@ -5,11 +5,15 @@ meta {
 }
 
 delete {
-  url: {{BASE_URL}}/sessions/:sessionId
+  url: {{base_url}}/sessions/:sessionId
   body: none
   auth: none
 }
 
 params:path {
   sessionId: john
+}
+
+headers {
+  X-API-Key: {{api_key}}
 }
