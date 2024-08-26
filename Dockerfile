@@ -4,11 +4,13 @@ WORKDIR /build
 
 COPY . .
 
-RUN npm install && npm run build --omit dev
+RUN npm install
+RUN npm run build --omit dev
 
 FROM node:20.13.0-alpine3.19 AS final
 
-RUN apk update && apk upgrade && apk --no-cache add sqlite
+RUN apk update && apk upgrade
+RUN apk --no-cache add sqlite
 
 WORKDIR /app
 
