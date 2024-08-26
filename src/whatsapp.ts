@@ -166,7 +166,7 @@ export async function createSession(options: createSessionOptions) {
 			creds: state.creds,
 			keys: makeCacheableSignalKeyStore(state.keys, logger),
 		},
-		version: [2, 2413, 1],
+		version: [2, 3000, 1015901307],
 		logger,
 		shouldIgnoreJid: (jid) => isJidBroadcast(jid),
 		getMessage: async (key) => {
