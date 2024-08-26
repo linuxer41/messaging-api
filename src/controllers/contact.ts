@@ -7,12 +7,32 @@ import { prisma } from "@/db";
 export const list: RequestHandler = async (req, res) => {
 	try {
 		const { sessionId } = req.params;
-		const { cursor = undefined, limit = 25 } = req.query;
+		const { cursor = undefined, limit = 25, search } = req.query;
 		const contacts = await prisma.contact.findMany({
 			cursor: cursor ? { pkId: Number(cursor) } : undefined,
 			take: Number(limit),
 			skip: cursor ? 1 : 0,
-			where: { id: { endsWith: "s.whatsapp.net" }, sessionId },
+			where: {
+				id: { endsWith: "s.whatsapp.net" },
+				sessionId,
+				OR: [
+					{
+						name: {
+							contains: String(search)
+						},
+					},
+					{
+						verifiedName: {
+							contains: String(search)
+						}
+					},
+					{
+						notify: {
+							contains: String(search)
+						}
+					}
+				]
+			},
 		});
 
 		res.status(200).json({

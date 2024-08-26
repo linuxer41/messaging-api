@@ -6,19 +6,21 @@ import makeWASocket, {
 import type { ConnectionState, SocketConfig, WASocket, proto } from "@whiskeysockets/baileys";
 import { Store, useSession } from "./store";
 import { prisma } from "./db";
-import type { WebSocket } from "ws";
 import { logger } from "./shared";
 import type { Boom } from "@hapi/boom";
 import type { Response } from "express";
 import { toDataURL } from "qrcode";
 import { delay } from "./utils";
 import dotenv from "dotenv";
+import { WAStatus } from "./type";
+import type { WebSocket as WebSocketType } from "ws";
 
 dotenv.config();
 
 type Session = WASocket & {
 	destroy: () => Promise<void>;
 	store: Store;
+	waStatus?: WAStatus;
 };
 
 const sessions = new Map<string, Session>();
@@ -29,16 +31,23 @@ const RECONNECT_INTERVAL = Number(process.env.RECONNECT_INTERVAL || 0);
 const MAX_RECONNECT_RETRIES = Number(process.env.MAX_RECONNECT_RETRIES || 5);
 const SSE_MAX_QR_GENERATION = Number(process.env.SSE_MAX_QR_GENERATION || 5);
 const SESSION_CONFIG_ID = "session-config";
-
 export async function init() {
 	const sessions = await prisma.session.findMany({
 		select: { sessionId: true, data: true },
 		where: { id: { startsWith: SESSION_CONFIG_ID } },
 	});
-
 	for (const { sessionId, data } of sessions) {
-		const { readIncomingMessages, ...socketConfig } = JSON.parse(data);
-		createSession({ sessionId, readIncomingMessages, socketConfig });
+			const { readIncomingMessages, ...socketConfig } = JSON.parse(data);
+			createSession({ sessionId, readIncomingMessages, socketConfig });
+
+	}
+}
+
+export function updateWaStatus(sessionId: string, waStatus: WAStatus){
+	if(sessions.has(sessionId)){
+		const _session = sessions.get(sessionId)!;
+		console.warn(waStatus);
+		sessions.set(sessionId, {..._session, waStatus});
 	}
 }
 
@@ -89,6 +98,8 @@ export async function createSession(options: createSessionOptions) {
 		const restartRequired = code === DisconnectReason.restartRequired;
 		const doNotReconnect = !shouldReconnect(sessionId);
 
+		updateWaStatus(sessionId, WAStatus.Disconected);
+
 		if (code === DisconnectReason.loggedOut || doNotReconnect) {
 			if (res) {
 				!SSE && !res.headersSent && res.status(500).json({ error: "Unable to create session" });
@@ -109,6 +120,7 @@ export async function createSession(options: createSessionOptions) {
 			if (res && !res.headersSent) {
 				try {
 					const qr = await toDataURL(connectionState.qr);
+					updateWaStatus(sessionId, WAStatus.WaitQrcodeAuth);
 					res.status(200).json({ qr });
 					return;
 				} catch (e) {
@@ -124,6 +136,7 @@ export async function createSession(options: createSessionOptions) {
 		let qr: string | undefined = undefined;
 		if (connectionState.qr?.length) {
 			try {
+				updateWaStatus(sessionId, WAStatus.WaitQrcodeAuth);
 				qr = await toDataURL(connectionState.qr);
 			} catch (e) {
 				logger.error(e, "An error occured during QR generation");
@@ -165,7 +178,8 @@ export async function createSession(options: createSessionOptions) {
 	});
 
 	const store = new Store(sessionId, socket.ev);
-	sessions.set(sessionId, { ...socket, destroy, store });
+
+	sessions.set(sessionId, { ...socket, destroy, store, waStatus: WAStatus.Unknown });
 
 	socket.ev.on("creds.update", saveCreds);
 	socket.ev.on("connection.update", (update) => {
@@ -173,10 +187,12 @@ export async function createSession(options: createSessionOptions) {
 		const { connection } = update;
 
 		if (connection === "open") {
+			updateWaStatus(sessionId, update.isNewLogin ? WAStatus.Authenticated : WAStatus.Connected);
 			retries.delete(sessionId);
 			SSEQRGenerations.delete(sessionId);
 		}
 		if (connection === "close") handleConnectionClose();
+		if (connection === "connecting") updateWaStatus(sessionId, WAStatus.PullingWAData);
 		handleConnectionUpdate();
 	});
 
@@ -209,9 +225,9 @@ export async function createSession(options: createSessionOptions) {
 
 export function getSessionStatus(session: Session) {
 	const state = ["CONNECTING", "CONNECTED", "DISCONNECTING", "DISCONNECTED"];
-	let status = state[(session.ws as WebSocket).readyState];
+	let status = state[(session.ws as WebSocketType).readyState];
 	status = session.user ? "AUTHENTICATED" : status;
-	return status;
+	return session.waStatus !== WAStatus.Unknown ? session.waStatus : status.toLowerCase();
 }
 
 export function listSessions() {
