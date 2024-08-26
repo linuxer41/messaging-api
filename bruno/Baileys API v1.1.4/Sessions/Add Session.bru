@@ -1,7 +1,7 @@
 meta {
   name: Add Session
   type: http
-  seq: 2
+  seq: 4
 }
 
 post {
@@ -10,8 +10,12 @@ post {
   auth: none
 }
 
+headers {
+  X-API-Key: {{api_key}}
+}
+
 body:json {
   {
-    "sessionId": "tbr"
+      "sessionId": "john"
   }
 }

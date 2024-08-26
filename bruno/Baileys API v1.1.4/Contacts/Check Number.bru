@@ -1,0 +1,16 @@
+meta {
+  name: Check Number
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/:sessionId/contacts/:jid
+  body: none
+  auth: none
+}
+
+params:path {
+  sessionId: john
+  jid: 6285xxxxxxx@s.whatsapp.net
+}

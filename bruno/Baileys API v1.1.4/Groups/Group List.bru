@@ -1,0 +1,20 @@
+meta {
+  name: Group List
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/:sessionId/groups
+  body: none
+  auth: none
+}
+
+params:query {
+  ~limit: 25
+  ~cursor: 25
+}
+
+params:path {
+  sessionId: john
+}
