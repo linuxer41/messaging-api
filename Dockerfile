@@ -5,7 +5,7 @@ WORKDIR /build
 COPY . .
 
 RUN npm install \
-	&& npm run build:prod --omit dev
+	&& npm run build --omit dev
 
 FROM node:20.13.0-alpine3.19 AS final
 
