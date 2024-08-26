@@ -1,13 +1,20 @@
-FROM node:20-alpine AS builder
+FROM node:20.13.0-alpine3.19 AS build
 
-WORKDIR /app
-
-COPY package*.json .
-
-RUN npm install --quiet && npx prisma migrate
+WORKDIR /build
 
 COPY . .
 
-EXPOSE 3000
+RUN npm install  && npm run build --omit dev
 
-CMD [ "npm", "run", "dev" ]
+FROM node:20.13.0-alpine3.19 AS final
+
+RUN apk update && apk upgrade && apk --no-cache add sqlite
+
+WORKDIR /app
+
+COPY --from=build /build/node_modules/ ./node_modules/
+COPY --from=build /build/prisma ./prisma
+COPY --from=build /build/dist/ ./dist
+
+EXPOSE 3000
+CMD ["node", "/app/dist/index.js"]
