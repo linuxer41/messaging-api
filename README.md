@@ -4,7 +4,13 @@ Baileys is a simple, fast and easy to use WhatsApp Web API written in TypeScript
 
 An implementation of [@WhiskeySockets/Baileys](https://github.com/WhiskeySockets/Baileys) as a simple REST API with multiple device support
 
-Project continued from [@ookamiiixd/baileys-api](https://github.com/ookamiiixd/baileys-api/)
+Project is fork of [nizarfadlan/baileys-api](https://github.com/nizarfadlan/baileys-api)
+
+Sqlite provider
+
+Application is [dockerized](https://hub.docker.com/repository/docker/hiteshdutt/whatsapp-api)
+
+For latest api code please refer [nizarfadlan/baileys-api](https://github.com/nizarfadlan/baileys-api)
 
 ## Requirements
 
@@ -36,13 +42,14 @@ You can skip this part if you're using the prebuilt one from the release page
 3. Run your [migration](https://www.prisma.io/docs/reference/api-reference/command-reference#prisma-migrate)
 
 ```sh
-npx prisma migrate (dev|deploy)
-```
+# Run the migration in development mode
+npm run migrate:dev
 
-or push the schema
+# Run the migration in staging mode
+npm run migrate:staging
 
-```sh
-npx prisma db push
+# Run the migration in production mode
+npm run migrate:prod
 ```
 
 Don't forget to always re-run those whenever there's a change on the `prisma/schema.prisma` file
