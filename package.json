@@ -4,7 +4,7 @@
 	"description": "Simple WhatsApp REST API with multiple device support",
 	"main": "dist/main.js",
 	"scripts": {
-		"build": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s ./src",
+		"build": "tsc --project tsconfig.json",
 		"start": "node -r tsconfig-paths/register -r ts-node ./dist/main.js",
 		"dev": "nodemon src/main.ts",
 		"lint": "eslint . --ext .ts",
@@ -13,31 +13,8 @@
 		"changelog:preview": "conventional-changelog -p angular -u",
 		"changelog:last": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
 	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/nizarfadlan/baileys-api.git"
-	},
-	"keywords": [
-		"chat",
-		"communication",
-		"message",
-		"send message",
-		"whatsapp",
-		"js-whatsapp",
-		"whatsapp-api",
-		"whatsapp-web",
-		"whatsapp",
-		"whatsapp-chat",
-		"whatsapp-group",
-		"automation",
-		"multi-device",
-		"bot",
-		"baileys-api"
-	],
-	"author": {
-		"name": "Hitesh Dutt",
-		"email": "hiteshdutt05@gmail.com"
-	},
+	"keywords": [],
+	"author": "Nizar",
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/nizarfadlan/baileys-api/issues"
@@ -54,6 +31,7 @@
 		"express-validator": "^7.0.1",
 		"link-preview-js": "^3.0.5",
 		"long": "^5.2.3",
+		"multer": "^1.4.5-lts.1",
 		"pino": "^7.11.0",
 		"pino-pretty": "^11.0.0",
 		"prisma": "^4.16.2",
@@ -66,6 +44,7 @@
 	"devDependencies": {
 		"@types/cors": "^2.8.17",
 		"@types/express": "^4.17.21",
+		"@types/multer": "^1.4.12",
 		"@types/node": "^20.11.19",
 		"@types/qrcode": "^1.5.5",
 		"@types/ws": "^8.5.10",
@@ -79,7 +58,7 @@
 		"prettier-plugin-organize-imports": "^3.2.4",
 		"ts-node": "^10.9.2",
 		"tsconfig-paths": "^4.2.0",
-		"tscpaths": "^0.0.9",
+		"tsx": "^4.19.1",
 		"typescript": "^5.3.3"
 	},
 	"engines": {
@@ -89,5 +68,6 @@
 		"dist/",
 		"prisma/schema.prisma",
 		".env.example"
-	]
+	],
+	"packageManager": "pnpm@9.12.0+sha1.87cb0f58b64bfb9103677375d7e99e12a3ddbf23"
 }

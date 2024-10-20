@@ -1,0 +1,26 @@
+meta {
+  name: Send Media Message
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{BASE_URL}}/:sessionId/messages/send
+  body: json
+  auth: none
+}
+
+params:path {
+  sessionId: john
+}
+
+body:json {
+  {
+      "jid": "917799836454@s.whatsapp.net",
+      "type": "number",
+      "message": {
+          "text": "What's that @6285xxxxxx?",
+          "mentions": ["6285xxxxxxx@s.whatsapp.net"]
+      }
+  }
+}

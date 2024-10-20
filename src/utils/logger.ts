@@ -7,10 +7,8 @@ export const logger: Logger = pino({
 		targets: [
 			{
 				level: env.LOG_LEVEL || "debug",
-				target: "pino-pretty",
-				options: {
-					colorize: true,
-				},
+				target: "pino/file",
+				options: { destination: env.LOG_FILE || "logs/app.log"				},
 			},
 		],
 	},

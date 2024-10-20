@@ -1,0 +1,3 @@
+script:pre-request {
+  req.headers["X-API-Key"] = bru.getEnvVar("api_key")
+}
