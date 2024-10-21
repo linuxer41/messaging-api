@@ -7,6 +7,7 @@ export function GetMessageBodyBasedOnMimeType(file?: Express.Multer.File, messag
 	switch (file.mimetype) {
 		case "application/pdf":
 		case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+		case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
 		case "application/msword":
 			return {
 				fileName: file.originalname,
