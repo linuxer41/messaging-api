@@ -19,6 +19,7 @@ interface CustomProcessEnv {
 	SESSION_CONFIG_ID?: string;
 	API_KEY?: string;
 	LOG_FILE?: string;
+	CONSOLE_LOG_FILE?: string;
 }
 
 const envSchema = z
@@ -37,6 +38,7 @@ const envSchema = z
 		SESSION_CONFIG_ID: z.string().optional().default("session-config"),
 		API_KEY: z.string(),
 		LOG_FILE: z.string().optional(),
+		CONSOLE_LOG_FILE: z.string().optional(),
 	})
 	.superRefine((data, ctx) => {
 		if (data.ENABLE_WEBHOOK && !data.URL_WEBHOOK) {
@@ -69,6 +71,7 @@ const processEnv: Partial<CustomProcessEnv> = {
 	SESSION_CONFIG_ID: process.env.SESSION_CONFIG_ID,
 	API_KEY: process.env.API_KEY,
 	LOG_FILE: process.env.LOG_FILE,
+	CONSOLE_LOG_FILE: process.env.CONSOLE_LOG_FILE,
 };
 
 type EnvInput = z.input<typeof envSchema>;
