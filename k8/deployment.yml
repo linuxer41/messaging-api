@@ -20,7 +20,7 @@ spec:
         app: whatsapp-api
     spec:
       containers:
-      - image: hiteshdutt/whatsapp-api
+      - image: hiteshdutt/whatsapp-api:11434168643
         env:
         - name: DATABASE_URL
           value: "postgres_connection_string"
@@ -35,7 +35,7 @@ spec:
         - name: CONSOLE_LOG_FILE
           value: "/app/logs/whatsapplogs/app.console.log"
         command: [ "/bin/sh", "-c" ]
-        args: [ "node /app/dist/index.js" ]
+        args: [ "node /app/dist/main.js" ]
         imagePullPolicy: IfNotPresent
         name: whatsapp-api
         ports:
