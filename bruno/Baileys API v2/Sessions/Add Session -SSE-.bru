@@ -1,0 +1,15 @@
+meta {
+  name: Add Session -SSE-
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{BASE_URL}}/sessions/:sessionId/add-sse
+  body: none
+  auth: none
+}
+
+params:path {
+  sessionId: john
+}

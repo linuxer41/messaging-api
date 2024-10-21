@@ -12,37 +12,37 @@ datasource db {
 
 model Chat {
   pkId                      Int      @id @default(autoincrement())
-  sessionId                 String   
+  sessionId                 String   @db.VarChar(128)
   archived                  Boolean?
   contactPrimaryIdentityKey Bytes?
   conversationTimestamp     BigInt?
   createdAt                 BigInt?
-  createdBy                 String?  
-  description               String?  
-  disappearingMode          String?
-  displayName               String?  
+  createdBy                 String?  @db.VarChar(128)
+  description               String?  @db.VarChar(255)
+  disappearingMode          Json?
+  displayName               String?  @db.VarChar(128)
   endOfHistoryTransfer      Boolean?
   endOfHistoryTransferType  Int?
   ephemeralExpiration       Int?
   ephemeralSettingTimestamp BigInt?
-  id                        String   
+  id                        String   @db.VarChar(128)
   isDefaultSubgroup         Boolean?
   isParentGroup             Boolean?
   lastMsgTimestamp          BigInt?
-  lidJid                    String?  
+  lidJid                    String?  @db.VarChar(128)
   markedAsUnread            Boolean?
   mediaVisibility           Int?
-  messages                  String?
+  messages                  Json?
   muteEndTime               BigInt?
-  name                      String?  
-  newJid                    String?  
+  name                      String?  @db.VarChar(128)
+  newJid                    String?  @db.VarChar(128)
   notSpam                   Boolean?
-  oldJid                    String?  
-  pHash                     String?  
-  parentGroupId             String?  
-  participant               String?
-  pinned                    Int?
-  pnJid                     String?  
+  oldJid                    String?  @db.VarChar(128)
+  pHash                     String?  @db.VarChar(128)
+  parentGroupId             String?  @db.VarChar(128)
+  participant               Json?
+  pinned                    BigInt?
+  pnJid                     String?  @db.VarChar(128)
   pnhDuplicateLidThread     Boolean?
   readOnly                  Boolean?
   shareOwnPn                Boolean?
@@ -54,7 +54,7 @@ model Chat {
   terminated                Boolean?
   unreadCount               Int?
   unreadMentionCount        Int?
-  wallpaper                 String?
+  wallpaper                 Json?
   lastMessageRecvTimestamp  Int?
   commentsCount             Int?
 
@@ -64,13 +64,13 @@ model Chat {
 
 model Contact {
   pkId         Int     @id @default(autoincrement())
-  sessionId    String  
-  id           String  
-  name         String? 
-  notify       String? 
-  verifiedName String? 
-  imgUrl       String? 
-  status       String? 
+  sessionId    String  @db.VarChar(128)
+  id           String  @db.VarChar(128)
+  name         String? @db.VarChar(128)
+  notify       String? @db.VarChar(128)
+  verifiedName String? @db.VarChar(128)
+  imgUrl       String? @db.VarChar(255)
+  status       String? @db.VarChar(128)
 
   @@unique([sessionId, id], map: "unique_id_per_session_id_2")
   @@index([sessionId])
@@ -106,10 +106,10 @@ model GroupMetadata {
 
 model Message {
   pkId                            Int      @id @default(autoincrement())
-  sessionId                       String   
-  remoteJid                       String   
-  id                              String   
-  agentId                         String?  
+  sessionId                       String   @db.VarChar(128)
+  remoteJid                       String   @db.VarChar(128)
+  id                              String   @db.VarChar(128)
+  agentId                         String?  @db.VarChar(128)
   bizPrivacyStatus                Int?
   broadcast                       Boolean?
   clearMedia                      Boolean?
@@ -118,52 +118,53 @@ model Message {
   ephemeralOffToOn                Boolean?
   ephemeralOutOfSync              Boolean?
   ephemeralStartTimestamp         BigInt?
-  finalLiveLocation               String?
+  finalLiveLocation               Json?
   futureproofData                 Bytes?
   ignore                          Boolean?
-  keepInChat                      String?
-  key                             String
-  labels                          String?
+  keepInChat                      Json?
+  key                             Json
+  labels                          Json?
   mediaCiphertextSha256           Bytes?
-  mediaData                       String?
-  message                         String?
+  mediaData                       Json?
+  message                         Json?
   messageC2STimestamp             BigInt?
   messageSecret                   Bytes?
-  messageStubParameters           String?
+  messageStubParameters           Json?
   messageStubType                 Int?
   messageTimestamp                BigInt?
   multicast                       Boolean?
-  originalSelfAuthorUserJidString String?  
-  participant                     String?  
-  paymentInfo                     String?
-  photoChange                     String?
-  pollAdditionalMetadata          String?
-  pollUpdates                     String?
-  pushName                        String?  
-  quotedPaymentInfo               String?
-  quotedStickerData               String?
-  reactions                       String?
+  originalSelfAuthorUserJidString String?  @db.VarChar(128)
+  participant                     String?  @db.VarChar(128)
+  paymentInfo                     Json?
+  photoChange                     Json?
+  pollAdditionalMetadata          Json?
+  pollUpdates                     Json?
+  pushName                        String?  @db.VarChar(128)
+  quotedPaymentInfo               Json?
+  quotedStickerData               Json?
+  reactions                       Json?
   revokeMessageTimestamp          BigInt?
   starred                         Boolean?
   status                          Int?
   statusAlreadyViewed             Boolean?
-  statusPsa                       String?
+  statusPsa                       Json?
   urlNumber                       Boolean?
   urlText                         Boolean?
-  userReceipt                     String?
-  verifiedBizName                 String?  
-  eventResponses                  String?
-  pinInChat                       String?
+  userReceipt                     Json?
+  verifiedBizName                 String?  @db.VarChar(128)
+  eventResponses                  Json?
+  pinInChat                       Json?
+  reportingTokenInfo              Json?
 
-  @@unique([sessionId, remoteJid, id], map: "global_unique_message_key_per_session_id")
+  @@unique([sessionId, remoteJid, id], map: "unique_message_key_per_session_id")
   @@index([sessionId])
 }
 
 model Session {
   pkId      Int    @id @default(autoincrement())
-  sessionId String 
-  id        String 
-  data      String 
+  sessionId String @db.VarChar(128)
+  id        String @db.VarChar(255)
+  data      String @db.Text
 
   @@unique([sessionId, id], map: "unique_id_per_session_id_4")
   @@index([sessionId])

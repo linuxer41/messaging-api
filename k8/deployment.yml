@@ -20,7 +20,7 @@ spec:
         app: whatsapp-api
     spec:
       containers:
-      - image: hiteshdutt/whatsapp-api:10561822356
+      - image: hiteshdutt/whatsapp-api:11434594709
         env:
         - name: DATABASE_URL
           value: "postgres_connection_string"
@@ -28,8 +28,14 @@ spec:
           value: "3000"
         - name: API_KEY
           value: "api_key_for_verfication_on_api"
+        - name: LOG_LEVEL
+          value: "info"
+        - name: LOG_FILE
+          value: "/app/logs/whatsapplogs/app.log"
+        - name: CONSOLE_LOG_FILE
+          value: "/app/logs/whatsapplogs/app.console.log"
         command: [ "/bin/sh", "-c" ]
-        args: [ "node /app/dist/index.js" ]
+        args: [ "npx ts-node /app/src/main.ts" ]
         imagePullPolicy: IfNotPresent
         name: whatsapp-api
         ports:
@@ -39,3 +45,11 @@ spec:
           requests:
             cpu: 50m
             memory: 50Mi
+        volumeMounts:
+          - mountPath: /app/logs/whatsapplogs/
+            name: volume
+            readOnly: false
+      volumes:
+      - name: volume
+        persistentVolumeClaim:
+          claimName: whatsapp-file-pvc
