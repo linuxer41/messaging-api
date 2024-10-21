@@ -17,4 +17,4 @@ COPY --from=build /build/prisma ./prisma
 COPY --from=build /build/dist/ ./dist
 
 EXPOSE 3000
-CMD ["node", "/app/dist/index.js"]
+CMD ["node", "/app/dist/main.js"]
