@@ -20,7 +20,7 @@ spec:
         app: whatsapp-api
     spec:
       containers:
-      - image: hiteshdutt/whatsapp-api:11434594709
+      - image: hiteshdutt/whatsapp-api:13277973145
         env:
         - name: DATABASE_URL
           value: "postgres_connection_string"
@@ -52,4 +52,4 @@ spec:
       volumes:
       - name: volume
         persistentVolumeClaim:
-          claimName: azure-blob-logs
+          claimName: azure-blob-whatsapp-logs
