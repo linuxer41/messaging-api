@@ -3,6 +3,7 @@ import { logger, serializePrisma } from "@/utils";
 import type { Chat, Message } from "@prisma/client";
 import { prisma } from "@/config/database";
 import { presenceHandler } from "./misc";
+import { PrismaClient} from "@prisma/client";
 
 export const list: RequestHandler = async (req, res) => {
 	try {
@@ -24,7 +25,7 @@ export const list: RequestHandler = async (req, res) => {
 					? chats[chats.length - 1].pkId
 					: null,
 		});
-	} catch (e) {
+	} catch (e: any) {
 		const message = "An error occured during chat list";
 		logger.error(e, message);
 		res.status(500).json({ error: message });
@@ -52,7 +53,7 @@ export const find: RequestHandler = async (req, res) => {
 					? messages[messages.length - 1].pkId
 					: null,
 		});
-	} catch (e) {
+	} catch (e: any) {
 		const message = "An error occured during chat find";
 		logger.error(e, message);
 		res.status(500).json({ error: message });

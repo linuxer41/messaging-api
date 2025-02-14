@@ -83,7 +83,7 @@ class WhatsappService {
 					prisma.session.deleteMany({ where: { sessionId } }),
 				]);
 				logger.info({ session: sessionId }, "Session destroyed");
-			} catch (e) {
+			} catch (e: any) {
 				logger.error(e, "An error occurred during session destroy");
 			} finally {
 				WhatsappService.sessions.delete(sessionId);
@@ -130,7 +130,7 @@ class WhatsappService {
 						emitEvent("qrcode.updated", sessionId, { qr });
 						res.status(200).json({ qr });
 						return;
-					} catch (e) {
+					} catch (e: any) {
 						logger.error(e, "An error occurred during QR generation");
 						emitEvent(
 							"qrcode.updated",
@@ -152,7 +152,7 @@ class WhatsappService {
 				try {
 					WhatsappService.updateWaConnection(sessionId, WAStatus.WaitQrcodeAuth);
 					qr = await toDataURL(connectionState.qr);
-				} catch (e) {
+				} catch (e: any) {
 					logger.error(e, "An error occurred during QR generation");
 					emitEvent(
 						"qrcode.updated",
@@ -299,7 +299,7 @@ class WhatsappService {
 			} else {
 				return null;
 			}
-		} catch (e) {
+		} catch (e: any) {
 			return null;
 		}
 	}

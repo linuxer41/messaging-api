@@ -28,15 +28,16 @@ export const list: RequestHandler = async (req, res) => {
 					? messages[messages.length - 1].pkId
 					: null,
 		});
-	} catch (e) {
+	} catch (e: any) {
 		const message = "An error occured during message list";
 		logger.error(e, message);
 		res.status(500).json({ error: message });
 	}
 };
 
-export const send: RequestHandler = async (req, res) => {
+export const send: RequestHandler = async (req, res, next) => {
 	try {
+		logger.info(req.body, "Request received");
 		const { jid, type = "number", message, options } = req.body;
 		const sessionId = req.params.sessionId;
 		const session = WhatsappService.getSession(sessionId)!;
@@ -48,7 +49,7 @@ export const send: RequestHandler = async (req, res) => {
 		const result = await session.sendMessage(validJid, message, options);
 		emitEvent("send.message", sessionId, { jid: validJid, result });
 		res.status(200).json(result);
-	} catch (e) {
+	} catch (e: any) {
 		const message = "An error occured during message send";
 		logger.error(e, message);
 		emitEvent(
@@ -58,7 +59,8 @@ export const send: RequestHandler = async (req, res) => {
 			"error",
 			message + ": " + e.message,
 		);
-		res.status(500).json({ error: message });
+		next(e);
+		//res.status(500).json({ error: message });
 	}
 };
 
@@ -85,7 +87,7 @@ export const sendBulk: RequestHandler = async (req, res) => {
 			const result = await session.sendMessage(jid, message, options);
 			results.push({ index, result });
 			emitEvent("send.message", sessionId, { jid, result });
-		} catch (e) {
+		} catch (e: any) {
 			const message = "An error occured during message send";
 			logger.error(e, message);
 			errors.push({ index, error: message });
@@ -115,7 +117,7 @@ export const download: RequestHandler = async (req, res) => {
 		res.setHeader("Content-Type", content.mimetype!);
 		res.write(buffer);
 		res.end();
-	} catch (e) {
+	} catch (e: any) {
 		const message = "An error occured during message media download";
 		logger.error(e, message);
 		res.status(500).json({ error: message });
@@ -151,7 +153,7 @@ export const deleteMessage: RequestHandler = async (req, res) => {
 		const result = await session.sendMessage(jid, { delete: message });
 
 		res.status(200).json(result);
-	} catch (e) {
+	} catch (e: any) {
 		const message = "An error occured during message delete";
 		logger.error(e, message);
 		res.status(500).json({ error: message });
@@ -186,7 +188,7 @@ export const deleteMessageForMe: RequestHandler = async (req, res) => {
 		const result = await session.chatModify({ clear: { messages: [message] } }, jid);
 
 		res.status(200).json(result);
-	} catch (e) {
+	} catch (e: any) {
 		const message = "An error occured during message delete";
 		logger.error(e, message);
 		res.status(500).json({ error: message });
