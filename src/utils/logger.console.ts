@@ -1,4 +1,4 @@
-import env from "@/config/env";
+import env from "../config/env";
 const fs = require('fs');
 
 const path = `${env.CONSOLE_LOG_FILE || "logs"}/${new Date().getFullYear()}/${new Date().getMonth() + 1}/whatsapp`;

@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { message } from "@/controllers";
-import requestValidator from "@/middlewares/request-validator";
-import sessionValidator from "@/middlewares/session-validator";
+import { message } from "../controllers";
+import requestValidator from "../middlewares/request-validator";
+import sessionValidator from "../middlewares/session-validator";
 import { query, body } from "express-validator";
 
 const router = Router({ mergeParams: true });

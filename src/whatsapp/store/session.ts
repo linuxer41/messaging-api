@@ -2,8 +2,8 @@
 import type { AuthenticationCreds, AuthenticationState, SignalDataTypeMap } from "baileys";
 import { proto } from "baileys";
 import { BufferJSON, initAuthCreds } from "baileys";
-import { prisma } from "@/config/database";
-import { logger } from "@/utils";
+import { prisma } from "../../config/database";
+import { logger } from "../../utils";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 const fixId = (id: string) => id.replace(/\//g, "__").replace(/:/g, "-");

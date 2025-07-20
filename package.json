@@ -10,6 +10,7 @@
 		"lint": "eslint . --ext .ts",
 		"format": "prettier . --write",
 		"postinstall": "prisma generate",
+		"migrate": "prisma migrate dev --name init",
 		"changelog:preview": "conventional-changelog -p angular -u",
 		"changelog:last": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
 	},

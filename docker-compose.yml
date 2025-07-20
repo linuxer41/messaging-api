@@ -7,8 +7,9 @@ services:
     environment:
       POSTGRES_PASSWORD: 2024pass
       POSTGRES_DB: bailey
+      
     ports:
-      - "5432:5432"  # Exportado apenas para demonstração, remova em produção
+      - "5435:5432"  # Exportado apenas para demonstração, remova em produção
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks: 
@@ -18,14 +19,11 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    volumes:
-      - '.:/app'
-      - /app/node_modules
-      - prisma:/prisma
     ports:
-      - "3000:3000"
+      - "3001:3000"
     environment:
       DATABASE_URL: postgres://postgres:2024pass@baileys-db:5432/bailey
+      API_KEY: "a6bc226axxxxxxxxxxxxxx"
     depends_on:
       - baileys-db
     networks: 

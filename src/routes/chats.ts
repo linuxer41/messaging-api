@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { body, query } from "express-validator";
-import { chat } from "@/controllers";
-import requestValidator from "@/middlewares/request-validator";
-import sessionValidator from "@/middlewares/session-validator";
-import { WAPresence } from "@/types";
+import { chat } from "../controllers";
+import requestValidator from "../middlewares/request-validator";
+import sessionValidator from "../middlewares/session-validator";
+import { WAPresence } from "../types";
 
 const router = Router({ mergeParams: true });
 router.get(

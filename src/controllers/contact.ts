@@ -1,8 +1,8 @@
 import type { RequestHandler } from "express";
-import { logger } from "@/utils";
+import { logger } from "../utils";
 import { makePhotoURLHandler } from "./misc";
-import { prisma } from "@/config/database";
-import WhatsappService from "@/whatsapp/service";
+import { prisma } from "../config/database";
+import WhatsappService from "../whatsapp/service";
 import { Prisma } from "@prisma/client";
 
 export const list: RequestHandler = async (req, res) => {

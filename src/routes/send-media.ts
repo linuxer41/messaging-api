@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { send_media } from "@/controllers";
-import requestValidator from "@/middlewares/request-validator";
-import sessionValidator from "@/middlewares/session-validator";
+import { send_media } from "../controllers";
+import requestValidator from "../middlewares/request-validator";
+import sessionValidator from "../middlewares/session-validator";
 import { body } from "express-validator";
 import multer from "multer";
 

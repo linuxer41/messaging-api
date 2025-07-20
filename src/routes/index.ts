@@ -6,7 +6,7 @@ import sessionRoutes from "./sessions";
 import contactRoutes from "./contacts";
 import sendMediaRoutes from "./send-media";
 import misc from "./misc";
-import { apiKeyValidator } from "@/middlewares/api-key-validator";
+import { apiKeyValidator } from "../middlewares/api-key-validator";
 
 const router = Router();
 router.use("/sessions", sessionRoutes);

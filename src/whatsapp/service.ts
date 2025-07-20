@@ -5,14 +5,14 @@ import makeWASocket, {
 } from "baileys";
 import type { ConnectionState, SocketConfig, WASocket, proto } from "baileys";
 import { Store, useSession } from "./store";
-import { prisma } from "@/config/database";
-import { logger, delay, emitEvent } from "@/utils";
-import { WAStatus } from "@/types";
+import { prisma } from "../config/database";
+import { logger, delay, emitEvent } from "../utils";
+import { WAStatus } from "../types";
 import type { Boom } from "@hapi/boom";
 import type { Response } from "express";
 import { toDataURL } from "qrcode";
 import type { WebSocket as WebSocketType } from "ws";
-import env from "@/config/env";
+import env from "../config/env";
 
 export type Session = WASocket & {
 	destroy: () => Promise<void>;

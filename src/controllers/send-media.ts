@@ -1,7 +1,7 @@
 import type { RequestHandler } from "express";
-import WhatsappService from "@/whatsapp/service";
-import { logger } from "@/utils";
-import { GetMessageBodyBasedOnMimeType } from "@/wa-utils";
+import WhatsappService from "../whatsapp/service";
+import { logger } from "../utils";
+import { GetMessageBodyBasedOnMimeType } from "../wa-utils";
 
 export const send: RequestHandler = async (req, res, next) => {
 	try {
