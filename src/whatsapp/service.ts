@@ -2,6 +2,7 @@ import makeWASocket, {
 	DisconnectReason,
 	isJidBroadcast,
 	makeCacheableSignalKeyStore,
+	Browsers
 } from "baileys";
 import type { ConnectionState, SocketConfig, WASocket, proto } from "baileys";
 import { Store, useSession } from "./store";
@@ -13,6 +14,11 @@ import type { Response } from "express";
 import { toDataURL } from "qrcode";
 import type { WebSocket as WebSocketType } from "ws";
 import env from "../config/env";
+import NodeCache from "node-cache";
+const groupCache = new NodeCache({ 
+	stdTTL: 60 * 60,
+	checkperiod: 60 * 15,
+ })
 
 export type Session = WASocket & {
 	destroy: () => Promise<void>;
@@ -188,9 +194,9 @@ class WhatsappService {
 			: handleNormalConnectionUpdate;
 		const { state, saveCreds } = await useSession(sessionId);
 		const socket = makeWASocket({
-			printQRInTerminal: true,
-			browser: [env.BOT_NAME || "Whatsapp Bot", "Chrome", "3.0"],
+			browser: Browsers.macOS("Desktop"),
 			generateHighQualityLinkPreview: true,
+			markOnlineOnConnect: false,
 			...socketConfig,
 			auth: {
 				creds: state.creds,
@@ -205,6 +211,7 @@ class WhatsappService {
 				});
 				return (data?.message || undefined) as proto.IMessage | undefined;
 			},
+			cachedGroupMetadata: async (jid) => groupCache.get(jid)
 		});
 
 		const store = new Store(sessionId, socket.ev);
@@ -237,11 +244,11 @@ class WhatsappService {
 
 		if (readIncomingMessages) {
 			socket.ev.on("messages.upsert", async (m) => {
-				const message = m.messages[0];
-				if (message.key.fromMe || m.type !== "notify") return;
-
-				await delay(1000);
-				await socket.readMessages([message.key]);
+				for (const message of m.messages) {
+					if (message.key.fromMe || m.type !== "notify") return;
+					await delay(1000);
+					await socket.readMessages([message.key]);
+				}
 			});
 		}
 
